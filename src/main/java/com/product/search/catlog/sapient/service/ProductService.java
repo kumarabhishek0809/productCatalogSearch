@@ -3,6 +3,7 @@ package com.product.search.catlog.sapient.service;
 import com.product.search.catlog.sapient.SapientApplication;
 import com.product.search.catlog.sapient.exception.ProductCatalogException;
 import com.product.search.catlog.sapient.model.Product;
+import com.product.search.catlog.sapient.model.ProductsCountByBrand;
 import com.product.search.catlog.sapient.repository.ProductRepository;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
@@ -22,18 +23,23 @@ public class ProductService {
     }
 
 
-    @Cacheable(value=SapientApplication.PRODUCT_CATLOG, key="#id")
+    @Cacheable(value = SapientApplication.PRODUCT_CATLOG, key = "#sku")
     public Product getProductBySku(String sku) {
-        return productRepository.findBySku(sku).orElseThrow(() -> new ProductCatalogException("Product not found for SKU "+sku));
+        return productRepository.findBySku(sku).orElseThrow(() -> new ProductCatalogException("Product not found for SKU " + sku));
     }
 
-    @Cacheable(value=SapientApplication.PRODUCT_CATLOG, key="#id")
+    @Cacheable(value = SapientApplication.PRODUCT_CATLOG, key = "#id")
     public Product getProductById(Integer id) {
-        return productRepository.findById(id).orElseThrow(() -> new ProductCatalogException("Product not found for ID "+id));
+        return productRepository.findById(id).orElseThrow(() -> new ProductCatalogException("Product not found for ID " + id));
     }
 
-    @Cacheable(value= SapientApplication.PRODUCT_CATLOG, key="findAll")
+    @Cacheable(value = SapientApplication.PRODUCT_CATLOG, key = " 'products' ")
     public List<Product> findAll() {
-        return StreamSupport.stream(productRepository.findAll().spliterator(),false).collect(Collectors.toList());
+        return StreamSupport.stream(productRepository.findAll().spliterator(), false).collect(Collectors.toList());
+    }
+
+    @Cacheable(value = SapientApplication.PRODUCT_CATLOG, key = " 'getProductByBrand' ")
+    public List<ProductsCountByBrand> getProductByBrand() {
+        return StreamSupport.stream(productRepository.findByBrands().spliterator(), false).collect(Collectors.toList());
     }
 }

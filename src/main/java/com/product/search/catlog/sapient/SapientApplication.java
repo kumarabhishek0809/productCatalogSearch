@@ -54,7 +54,7 @@ public class SapientApplication {
             products.add(Product.builder()
                     .brand(i/2 == 0 ? "Zodiac" : "Vimal")
                     .color( i/2 == 0 ? "White" : "Black")
-                    .price(2000)
+                    .price(new Double(200)*i)
                     .productId(i)
                     .productName(i/2 == 0 ? "Zodiac" : "Vimal" + (i/2 == 0 ? "Business" : "Formal") +" Shirts")
                     .size(i/2 == 0 ? 40 : 42)

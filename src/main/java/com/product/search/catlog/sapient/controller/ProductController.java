@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Stream;
 
 
@@ -43,6 +44,12 @@ public class ProductController {
     @GetMapping("/products/brand")
     public ResponseEntity<List<ProductsCountByBrand>> getProductByBrand() {
         List<ProductsCountByBrand> products = productService.getProductByBrand();
+        return new ResponseEntity<>(products, new HttpHeaders(), HttpStatus.OK);
+    }
+
+    @GetMapping("/products/price")
+    public ResponseEntity<Map<Double, List<Product>>> getProductByPrice() {
+        Map<Double, List<Product>> products = productService.getProductByPrice();
         return new ResponseEntity<>(products, new HttpHeaders(), HttpStatus.OK);
     }
 

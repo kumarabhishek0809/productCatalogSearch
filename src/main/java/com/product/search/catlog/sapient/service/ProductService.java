@@ -9,8 +9,11 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
+
+import static java.util.stream.Collectors.groupingBy;
 
 @Service
 public class ProductService {
@@ -41,5 +44,10 @@ public class ProductService {
     @Cacheable(value = SapientApplication.PRODUCT_CATLOG, key = " 'getProductByBrand' ")
     public List<ProductsCountByBrand> getProductByBrand() {
         return StreamSupport.stream(productRepository.findByBrands().spliterator(), false).collect(Collectors.toList());
+    }
+
+    @Cacheable(value = SapientApplication.PRODUCT_CATLOG, key = " 'getProductByPrice' ")
+    public Map<Double, List<Product>> getProductByPrice() {
+        return findAll().stream().collect(groupingBy(Product::getPrice));
     }
 }

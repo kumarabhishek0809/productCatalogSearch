@@ -23,7 +23,7 @@ public class Product {
     private int productId;
 
     private String productName;
-    private double price;
+    private Double price;
     private String color;
     private String brand;
     private int size;
